@@ -1,6 +1,14 @@
+import AboutUs from "../components/AboutUs";
+import HomeMap from "../components/HomeMap";
+
 const HomePage = () => {
     return (
-        <div>HomePage</div>
+        <>
+            <section id="home">    
+                <HomeMap />
+                <AboutUs />
+            </section>
+        </>
     );
 }
 

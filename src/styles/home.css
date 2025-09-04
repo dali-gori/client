@@ -1,0 +1,44 @@
+#home {
+    background: #000;
+
+    #home-map {
+        width: 100%;
+        position: relative;
+        height: 80vh;
+
+        article {
+            position: absolute;
+            background: var(--color-white);
+        }
+    }
+
+    #about-us {
+        background: var(--color-white);
+        display: grid;
+        grid-template-columns: 65% 35%;
+        padding: 8.7rem 13%;
+        gap: 5.8rem;
+
+        article {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            font-family: var(--font-inter);
+
+            h2 {
+                font-weight: 400;
+                font-size: 3.47rem;
+            }
+
+            p {
+                font-size: 1.73rem;
+            }
+        }
+
+        img {
+            width: 100%;
+            border-radius: 20px;
+            aspect-ratio: 1 / 1;
+        }
+    }
+}
