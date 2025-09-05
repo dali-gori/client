@@ -1,0 +1,134 @@
+#donation {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(0.66 * 100vw);
+
+    img {
+        width: 100%;
+        opacity: 0.8;
+        position: absolute;
+        top: 0;
+        aspect-ratio: 3 / 2;
+        z-index: -1;
+    }
+
+    article {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5rem;
+        font-family: var(--font-inter);
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 2.3rem;
+            color: var(--color-white);
+            max-width: 40%;
+
+            h3 {
+                font-weight: 400;
+                font-size: 4rem;
+                line-height: 1.4;
+            }
+
+            p {
+                font-size: 1.67rem;
+            }
+        }
+
+        form {
+            background: var(--color-white);
+            padding: 6.6rem 2.15rem;
+            border-radius: 13px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+
+            div {
+                grid-column: 1 / span 2;
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+
+                &:nth-child(1),
+                &:nth-child(2) {
+                    grid-column: auto;
+                }
+
+                input:not([type="checkbox"]) {
+                    background: #F2F4F8;
+                    padding: 1rem 1.2rem;
+                    border-radius: 10px;
+                    border: 1px solid transparent;
+                    outline: none;
+                    transition: all 0.2s linear;
+                    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+                    &:focus {
+                        border: 1px solid var(--color-primary);
+                    }
+                }
+            }
+
+            ul {
+                display: flex;
+                justify-content: space-between;
+                grid-column: 1 / span 2;
+                width: 100%;
+
+                li {
+                    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 22%;
+                    padding: 0.76rem 0;
+                    background: #F2F4F8;
+                    border-radius: 10px;
+                    transition: all 0.2s linear;
+
+                    button,
+                    input {
+                        background: none;
+                        font-size: 0.87rem;
+                        all: unset;
+                        width: 100%;
+                        text-align: center;
+                        font-weight: 700;
+                    }
+
+                    &:has(button) {
+                        cursor: pointer;
+
+                        &:hover {
+                            transform: translateY(-4px);
+                        }
+                    }
+                }
+            }
+
+            &>button {
+                box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+                grid-column: 1 / span 2;
+                border-radius: 11px;
+                color: var(--color-white);
+                text-align: center;
+                padding: 1.25rem 0;
+                font-weight: 500;
+                font-family: var(--font-inter);
+                font-size: 1rem;
+                background: var(--color-primary);
+                cursor: pointer;
+                transition: all 0.2s linear;
+
+                &:hover {
+                    scale: 1.02;
+                }
+            }
+        }
+    }
+}

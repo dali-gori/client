@@ -6,10 +6,10 @@ header {
     section {
         display: flex;
         justify-content: center;
-        font-family: var(--font-inter);
+        font-family: var(--font-montserrat);
         background: #3A7C2B;
         width: 100%;
-        padding: 2rem 0;
+        padding: 1rem 0;
 
         &.danger {
             background: #E92A2A;
@@ -34,7 +34,7 @@ header {
             gap: 4.5rem;
 
             a {
-                font-family: var(--font-inter);
+                font-family: var(--font-montserrat);
                 font-weight: 400;
                 font-size: 1.1rem;
                 color: var(--color-black);
@@ -45,12 +45,16 @@ header {
 
                 &.org-name {
                     font-size: 2.2rem;
+                    font-family: var(--font-sitka);
+                    font-style: italic;
+                    font-weight: 700;
+                    letter-spacing: 2.5px;
                 }
 
                 &.login {
                     color: var(--color-white);
-                    background: var(--color-blue);
-                    padding: 1.3rem 3rem;
+                    background: var(--color-primary);
+                    padding: 0.8rem 2rem;
                     border-radius: 10px;
                 }
 

@@ -1,9 +1,11 @@
 :root {
     --font-inter: "Inter";
+    --font-sitka: "Sitka";
+    --font-montserrat: "Montserrat";
 
     --color-white: #ffffff;
     --color-black: #000000;
-    --color-blue: #0044FF;
+    --color-primary: #F58E44;
 }
 
 html {
