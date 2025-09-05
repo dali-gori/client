@@ -47,6 +47,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.2rem;
+            width: 40%;
 
             div {
                 grid-column: 1 / span 2;
@@ -90,11 +91,16 @@
                     background: #F2F4F8;
                     border-radius: 10px;
                     transition: all 0.2s linear;
+                    font-size: 0.85rem;
+
+                    &.current {
+                        background: var(--color-primary);
+                        color: var(--color-white);
+                    }
 
                     button,
                     input {
                         background: none;
-                        font-size: 0.87rem;
                         all: unset;
                         width: 100%;
                         text-align: center;

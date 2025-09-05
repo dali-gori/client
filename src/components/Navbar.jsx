@@ -10,7 +10,7 @@ const Navbar = () => {
             <nav>
                 <ul>
                     <li><NavLink to="/">Начало</NavLink></li>
-                    <li><NavLink to="/donation">Виртуална прегръдка</NavLink></li>
+                    <li><NavLink to="/donation">Направи дарение</NavLink></li>
                     <li><NavLink to="/" className="org-name">ДАЛИГОРИ.БГ</NavLink></li>
                     <li><NavLink to="/tips">10 съвета...</NavLink></li>
                     <li><NavLink to="/login" className="login">Влизане</NavLink></li>

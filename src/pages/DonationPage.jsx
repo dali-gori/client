@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const DonationPage = () => {
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState("Или повече лв.");
 
     return (
         <section id="donation">
@@ -31,12 +31,12 @@ const DonationPage = () => {
                         <input type="tel" id="phone" name="phone" />
                     </div>
                     <ul>
-                        <li onClick={() => setAmount(3)}><button type="button">3</button></li>
-                        <li onClick={() => setAmount(5)}><button type="button">5</button></li>
-                        <li onClick={() => setAmount(7)}><button type="button">7</button></li>
-                        <li><input onChange={(e) => setAmount(Number(e.target.value)) || 1} type="text" name="amount" id="amount" placeholder="10" value={amount} /></li>
+                        <li onClick={() => setAmount(3)} className={`${amount === 3 && "current"}`}><button type="button">6лв. / 3.07€</button></li>
+                        <li onClick={() => setAmount(5)} className={`${amount === 5 && "current"}`}><button type="button">10лв. / 5.11€</button></li>
+                        <li onClick={() => setAmount(7)} className={`${amount === 7 && "current"}`}><button type="button">15лв. / 7.67€</button></li>
+                        <li><input onChange={(e) => setAmount(Number(e.target.value) ? Number(e.target.value) : 1)} type="text" name="amount" id="amount" placeholder="10" value={amount} /></li>
                     </ul>
-                    <button type="submit">Изпрати</button>
+                    <button type="submit">Изпрати {amount !== `Или повече лв.` && `${amount}лв. / ${(amount * 0.51).toFixed(2)}€`}</button>
                 </form>
             </article>
         </section>

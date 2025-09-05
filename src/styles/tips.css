@@ -59,7 +59,7 @@
 
                     h3 {
                         font-size: 5rem;
-                        font-family: Helvetica;
+                        font-family: var(--font-montserrat);
                         font-weight: 100;
                     }
 
