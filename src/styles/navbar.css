@@ -39,7 +39,7 @@ header {
                 font-size: 1.1rem;
                 color: var(--color-black);
 
-                &.active {
+                &.active:not(.org-name) {
                     font-weight: 700;
                 }
 

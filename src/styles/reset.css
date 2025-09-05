@@ -6,6 +6,12 @@
     box-sizing: border-box;
 }
 
+main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
 ul {
     list-style: none;
 }
@@ -17,4 +23,8 @@ a {
 
 img {
     object-fit: cover;
+}
+
+hr {
+    border: none;
 }
