@@ -65,7 +65,7 @@ header {
 
                 &.login:hover {
                     color: var(--color-white);
-                    filter: brightness(95%);
+                    filter: brightness(95%); 
                 }
 
                 &.org-name:hover {

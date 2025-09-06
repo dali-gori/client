@@ -4,4 +4,5 @@ export const endpoints = {
     login: `${baseUrl}/auth/login`,
     register: `${baseUrl}/auth/register`,
     logout: `${baseUrl}/auth/logout`,
+    createItemDonation: `${baseUrl}/item-donations`
 };

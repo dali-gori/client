@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useSelectedReport } from "../contexts/SelectedReportContext";
 
 // --- Helpers ---------------------------------------------------------------
 function getLngLatFromAny(item) {
@@ -78,6 +79,7 @@ function clusterHotspots(coords, maxDistanceKm = 2) {
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 export default function FullscreenMap() {
+    const { setSelectedReport } = useSelectedReport();
     const mapContainerRef = useRef(null);
     const mapRef = useRef(null);
 
@@ -111,7 +113,8 @@ export default function FullscreenMap() {
             map.resize();
             map.flyTo({ center: [23.3219, 42.6977], zoom: 6.5, speed: 0.6 });
 
-            fetch("https://server-production-32f2.up.railway.app/home-map")
+            //https://server-production-32f2.up.railway.app/home-map
+            fetch("http://localhost:3000/home-map")
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data || !Array.isArray(data.sat_data)) {
@@ -122,6 +125,170 @@ export default function FullscreenMap() {
                     // Build GeoJSON FeatureCollection for sat_data (hotspots)
                     const features = [];
                     const bounds = new mapboxgl.LngLatBounds();
+
+
+                    //data.report_data = [{ "lat": 43, "lng": 25, "statusText": "Нов", "statusHistory": [ { "created_at": "2025-09-05T08:54:26.695Z", "reportStatus": "Нов", "reportStatusId": 1 } ] }, { "lat": 41.94177, "lng": 25.11144, "statusText": "Нов", "statusHistory": [ { "created_at": "2025-09-05T15:54:15.693Z", "reportStatus": "Нов", "reportStatusId": 1 }, { "created_at": "2025-09-05T17:50:59.070Z", "reportStatus": "Под контрол", "reportStatusId": 2 }, { "created_at": "2025-09-05T18:47:28.889Z", "reportStatus": "Нов", "reportStatusId": 1 } ] }]
+
+                    const REPORT_SRC = "reports-src";
+                    const REPORT_LAYER = "reports-layer";
+
+                    // Build Features for reports and extend the same `bounds` used by hotspots
+                    const reportFeatures = (Array.isArray(data.report_data) ? data.report_data : [])
+                        .map((item, idx) => {
+                            if (!item || typeof item.lat !== "number" || typeof item.lng !== "number") return null;
+                            const latest = Array.isArray(item.statusHistory) && item.statusHistory.length
+                                ? item.statusHistory[item.statusHistory.length - 1]
+                                : null;
+                            const latestId = latest ? latest.reportStatusId : null;
+
+                            // extend the same `bounds` variable you used for sat_data so fitBounds includes both
+                            if (typeof bounds !== "undefined" && bounds && bounds.extend) {
+                                bounds.extend([item.lng, item.lat]);
+                            }
+
+                            return {
+                                type: "Feature",
+                                geometry: { type: "Point", coordinates: [item.lng, item.lat] },
+                                properties: {
+                                    _id: item.id ?? idx,
+                                    statusText: item.statusText ?? "",
+                                    latestId: latestId,
+                                    // stringify history so we can store the array in GeoJSON properties
+                                    statusHistory: JSON.stringify(item.statusHistory ?? []),
+                                    lat: item.lat,
+                                    lng: item.lng,
+                                    items: JSON.stringify(item.items ?? [])
+                                },
+                            };
+                        })
+                        .filter(Boolean);
+
+                    const reportCollection = { type: "FeatureCollection", features: reportFeatures };
+
+                    // add/update source
+                    if (map.getSource(REPORT_SRC)) {
+                        map.getSource(REPORT_SRC).setData(reportCollection);
+                    } else {
+                        map.addSource(REPORT_SRC, { type: "geojson", data: reportCollection });
+
+                        // helper to create the SVG data URL
+                        const fireSvg = (color) =>
+                            `<svg viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                <path d="M7.08225 0.363345C6.82768 0.17263 6.5194 0.0671583 6.20136 0.0619687C5.88332 0.0567791 5.57175 0.152137 5.3111 0.334444C5.05045 0.516752 4.85401 0.776701 4.74979 1.07723C4.64557 1.37775 4.6389 1.70351 4.73072 2.00805C4.99472 2.88884 5.02439 3.82326 4.81681 4.71903C4.60992 5.60949 4.1724 6.42985 3.54817 7.09773C3.50656 7.14265 3.46772 7.19006 3.43187 7.2397C2.53174 8.47361 -2.54888 15.6973 2.01069 23.4935L2.056 23.5675C3.16359 25.2332 4.68059 26.5864 6.46152 27.4972C8.22097 28.3982 10.1833 28.8294 12.1583 28.7493C14.2584 28.786 16.3323 28.2787 18.1784 27.2767C20.0565 26.2554 21.6382 24.7652 22.7696 22.9513C24.7345 19.6286 24.5578 16.0704 23.6577 13.2235C22.7772 10.4325 21.1204 8.06734 19.7204 7.02826C19.5004 6.86538 19.2403 6.76534 18.9679 6.73883C18.6955 6.71232 18.421 6.76034 18.1737 6.87776C17.9265 6.99518 17.7158 7.17758 17.5642 7.40546C17.4126 7.63334 17.3257 7.89814 17.313 8.17155C17.2118 10.3328 16.7647 12.0243 16.1138 13.3534C15.7785 9.71809 14.4117 7.01618 12.7549 5.01051C11.0226 2.91121 8.88252 1.53684 7.7362 0.799819C7.5146 0.661632 7.29703 0.517087 7.08376 0.366365L7.08225 0.363345Z" fill="${color}" />
+                            </svg>`;
+
+                        function loadImgFromSvg(name, svg) {
+                            return new Promise((resolve, reject) => {
+                                if (map.hasImage(name)) return resolve(); // already present
+                                const img = new Image();
+                                img.onload = () => {
+                                    try {
+                                        map.addImage(name, img);
+                                    } catch (err) {
+                                        // if addImage fails (rare), still resolve to avoid blocking.
+                                        console.warn("map.addImage failed for", name, err);
+                                    }
+                                    resolve();
+                                };
+                                img.onerror = (e) => reject(e);
+                                img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+                            });
+                        }
+
+                        // load three colored icons (orange, blue, green)
+                        Promise.all([
+                            loadImgFromSvg("fire-orange", fireSvg("#FF7410")),
+                            loadImgFromSvg("fire-blue", fireSvg("#0095FF")),
+                            loadImgFromSvg("fire-green", fireSvg("#3AB549")),
+                        ])
+                            .then(() => {
+                                // add the symbol layer if not already there
+                                if (!map.getLayer(REPORT_LAYER)) {
+                                    map.addLayer({
+                                        id: REPORT_LAYER,
+                                        type: "symbol",
+                                        source: REPORT_SRC,
+                                        layout: {
+                                            // choose image by numeric latestId (1 or 4 -> orange, 2 -> blue, 3 -> green)
+                                            "icon-image": [
+                                                "match",
+                                                ["to-number", ["get", "latestId"]],
+                                                1, "fire-orange",
+                                                4, "fire-orange",
+                                                2, "fire-blue",
+                                                3, "fire-green",
+                                                "fire-orange"
+                                            ],
+                                            "icon-size": 1,
+                                            "icon-allow-overlap": true,
+                                            "icon-ignore-placement": true
+                                        }
+                                    });
+                                }
+
+                                // Click handler: populate #reportDetails and smoothly scroll to it
+                                // (no popup on the map)
+                                // Remove existing click listener first (defensive)
+                                // NOTE: map.off requires the exact function reference; if you re-create this code block you may end up with duplicated handlers.
+                                // For typical usage, this block runs once per load, so it's fine.
+                                map.on("click", REPORT_LAYER, (e) => {
+                                    const f = e.features && e.features[0];
+                                    if (!f) return;
+                                    const props = f.properties || {};
+                                    let history = [];
+                                    try {
+                                        history = JSON.parse(props.statusHistory || "[]");
+                                    } catch (err) {
+                                        history = [];
+                                    }
+
+                                    let items = [];
+                                    try {
+                                        items = JSON.parse(props.items || "[]");
+                                    } catch (err) {
+                                        items = [];
+                                    }
+
+                                    setSelectedReport({
+                                        id: f.properties?._id,
+                                        lat: Number(f.properties?.lat),
+                                        lng: Number(f.properties?.lng),
+                                        statusText: f.properties?.statusText,
+                                        statusHistory: history,
+                                        latestId: Number(f.properties?.latestId || 0),
+                                        items: items
+                                    });
+
+                                    // Smooth scroll to the details box
+                                    const box = document.getElementById("reportDetails");
+                                    if (box) {
+                                      box.scrollIntoView({ block: "center", behavior: "smooth"});
+                                    }
+                                });
+
+                                // cursor feedback
+                                map.on("mouseenter", REPORT_LAYER, () => (map.getCanvas().style.cursor = "pointer"));
+                                map.on("mouseleave", REPORT_LAYER, () => (map.getCanvas().style.cursor = ""));
+                            })
+                            .catch((err) => {
+                                console.error("Failed to load report icons:", err);
+                                // Fallback: add a simple circle layer if images fail
+                                if (!map.getLayer(REPORT_LAYER)) {
+                                    map.addLayer({
+                                        id: REPORT_LAYER,
+                                        type: "circle",
+                                        source: REPORT_SRC,
+                                        paint: {
+                                            "circle-color": "#888888",
+                                            "circle-radius": 6,
+                                            "circle-stroke-color": "#ffffff",
+                                            "circle-stroke-width": 1.25,
+                                        }
+                                    });
+                                }
+                            });
+                    }
+                    // ---------- end reports ----------
 
                     (data.sat_data).forEach((item) => {
                         const coord = getLngLatFromAny(item);
