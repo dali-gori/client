@@ -4,37 +4,35 @@ const LoginPage = () => {
     const [isActive, setIsActive] = useState(false);
 
     return (
-        <section id="login" class={`${isActive && "active"}`}>
-            <article class="register">
+        <section id="login" className={`${isActive && "active"}`}>
+            <article className="register">
                 <form>
-                    <h1>Create Account</h1>
-                    <span>or use your email for registeration</span>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign Up</button>
+                    <h1>Създай акаунт</h1>
+                    <input type="text" placeholder="Име" />
+                    <input type="email" placeholder="Имейл" />
+                    <input type="password" placeholder="Парола" />
+                    <button>Регистрация</button>
                 </form>
             </article>
-            <article class="login">
+            <article className="login">
                 <form>
-                    <h1>Sign In</h1>
-                    <span>or use your email password</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign In</button>
+                    <h1>Вход в профила</h1>
+                    <input type="email" placeholder="Имейл" />
+                    <input type="password" placeholder="Парола" />
+                    <button>Влизане</button>
                 </form>
             </article>
-            <article class="toggle-container">
+            <article className="toggle-container">
                 <div>
-                    <div class="toggle-panel toggle-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Enter your personal details to use all of site features</p>
-                        <button class="hidden" id="login" onClick={() => setIsActive(false)}>Sign In</button>
+                    <div className="toggle-panel toggle-left">
+                        <h1>Здравейте отново!</h1>
+                        <p>Влезте в профила си и станете част от платформата.</p>
+                        <button id="login-button" onClick={() => setIsActive(false)}>Влизане</button>
                     </div>
-                    <div class="toggle-panel toggle-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Register with your personal details to use all of site features</p>
-                        <button class="hidden" id="register" onClick={() => setIsActive(true)}>Sign Up</button>
+                    <div className="toggle-panel toggle-right">
+                        <h1>Здравейте!</h1>
+                        <p>Регистрирайте се и станете част от платформата.</p>
+                        <button id="register-button" onClick={() => setIsActive(true)}>Регистрация</button>
                     </div>
                 </div>
             </article>

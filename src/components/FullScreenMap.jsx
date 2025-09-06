@@ -75,8 +75,7 @@ function clusterHotspots(coords, maxDistanceKm = 2) {
 })();
 
 // --- Map component ----------------------------------------------------------
-mapboxgl.accessToken =
-    "pk.eyJ1IjoibmltbWJsZSIsImEiOiJjbWY2dGc0cGgwamtsMmlzOWNmOWY2bmc1In0.V4XxT1FGi8GkN4JFdUWIrA";
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 export default function FullscreenMap() {
     const mapContainerRef = useRef(null);
