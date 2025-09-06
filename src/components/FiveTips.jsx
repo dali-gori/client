@@ -1,7 +1,7 @@
-const FiveTips = ({ tips, areFirstFive = true }) => {
+const FiveTips = ({ tips, areFirstFive = true, image }) => {
     return (
         <section className={`${!areFirstFive && "reversed"}`}>
-            <img src="/images/tips.png" alt="tips section image" />
+            <img src={`/images/tips/${image}.png`} alt="tips section image" />
 
             <article>
                 {
