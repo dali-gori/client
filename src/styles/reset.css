@@ -1,10 +1,3 @@
-@font-face {
-    font-family: 'Sitka';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Sitka'), url('/fonts/sitka/sitka.ttf') format('ttf');
-}
-
 *,
 *::after,
 *::before {

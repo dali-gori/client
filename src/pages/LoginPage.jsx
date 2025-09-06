@@ -20,13 +20,16 @@ const LoginPage = () => {
             });
             const data = await res.json();
 
-            if (data) {
-                localStorage.setItem("accessToken", data.accessToken);
-                navigate("/");
+            if (!res.ok) {
+                throw new Error(data.message);
             }
+
+            localStorage.setItem("accessToken", data.accessToken);
+            navigate("/");
         }
         catch (error) {
             console.log(error);
+            alert(error.message);
         }
     }
 
@@ -44,13 +47,16 @@ const LoginPage = () => {
             });
             const data = await res.json();
 
-            if (data) {
-                localStorage.setItem("accessToken", data.accessToken);
-                navigate("/");
+            if (!res.ok) {
+                throw new Error(data.message);
             }
+
+            localStorage.setItem("accessToken", data.accessToken);
+            navigate("/");
         }
         catch (error) {
             console.log(error);
+            alert(error.message);
         }
     }
 
@@ -61,7 +67,7 @@ const LoginPage = () => {
                     <h1>Създай акаунт</h1>
                     <input type="text" name="name" placeholder="Име" />
                     <input type="text" name="phone" placeholder="Тел. номер" />
-                    <input type="email" name="email" placeholder="Имейл" />
+                    <input type="text" name="email" placeholder="Имейл" />
                     <input type="password" name="password" placeholder="Парола" />
                     <button>Регистрация</button>
                 </form>
@@ -69,7 +75,7 @@ const LoginPage = () => {
             <article className="login">
                 <form onSubmit={onLoginSubmit}>
                     <h1>Вход в профила</h1>
-                    <input type="email" placeholder="Имейл" name="email" />
+                    <input type="text" placeholder="Имейл" name="email" />
                     <input type="password" placeholder="Парола" name="password" />
                     <button>Влизане</button>
                 </form>

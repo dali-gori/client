@@ -1,14 +1,36 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
+import { endpoints } from "../api/endpoints";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("accessToken") !== null);
     const location = useLocation();
 
-    function logoutUser(e) {
+    async function logoutUser(e) {
         e.preventDefault();
-        localStorage.removeItem("accessToken");
-        setIsLoggedIn(false);
+
+        try {
+            const res = await fetch(endpoints.logout, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ accessToken: localStorage.getItem("accessToken") }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+
+            localStorage.removeItem("accessToken");
+            setIsLoggedIn(false);
+        }
+        catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
     }
 
     useEffect(() => {
@@ -37,9 +59,9 @@ const Navbar = () => {
             <nav>
                 <ul>
                     <li><NavLink to="/">Начало</NavLink></li>
-                    <li><NavLink to="/donation">Направи дарение</NavLink></li>
+                    <li><NavLink to="/tips">Съвети за превенция</NavLink></li>
                     <li><NavLink to="/" className="org-name">ДАЛИГОРИ.БГ</NavLink></li>
-                    <li><NavLink to="/tips">Съвети за безопасност</NavLink></li>
+                    <li><NavLink to="/donation">Направи дарение</NavLink></li>
                     {isLoggedIn ? userNav : guestNav}
                 </ul>
             </nav>

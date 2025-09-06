@@ -14,13 +14,13 @@ const PlansPage = () => {
                 />
                 <SinglePlan
                     isBigger={true}
-                    name={"Разширен"}
+                    name={"Базов"}
                     pinsAllowed={3}
                     priceInLv={4.99}
                     priceInEur={2.50}
                 />
                 <SinglePlan
-                    name={"Бизнес"}
+                    name={"Разширение"}
                     pinsAllowed={10}
                     priceInLv={14.99}
                     priceInEur={7.50}
@@ -29,13 +29,13 @@ const PlansPage = () => {
 
             <article className="enterprise">
                 <div>
-                    <h3>Enterprise</h3>
+                    <h3>Корпоративен</h3>
                     <p>Започва от</p>
-                    <span>499.99 лв./ 250.00€</span>
+                    <span>99.99 лв./ 50.00€</span>
                     <p>На месец</p>
-                    <p>Позволява право на над 10 пина</p>
+                    <p>Избор над 10 пина</p>
                 </div>
-                <button type="button">Избери</button>
+                <button type="button" onClick={() => window.scrollTo(0, document.body.scrollHeight)}>Свържи се с нас</button>
             </article>
         </section>
     );

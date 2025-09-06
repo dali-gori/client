@@ -12,6 +12,9 @@ const Footer = () => {
                 <li>
                     <a href="https://www.wwf.bg/" target="_blank"><img src="/images/brands/wwf.png" alt="wwf logo" /></a>
                 </li>
+                <li>
+                    <a href="https://www.mvr.bg/" target="_blank"><img src="/images/brands/mvr.png" alt="mvr logo" /></a>
+                </li>
             </ul>
             <ul>
                 <li>

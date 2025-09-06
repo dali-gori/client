@@ -98,7 +98,7 @@
 
         .toggle-container {
             transform: translateX(-100%);
-            border-radius: 0 150px 100px 0;
+            border-radius: 0 100px 100px 0;
 
             &>div {
                 transform: translateX(50%);
@@ -122,7 +122,7 @@
         height: 85%;
         overflow: hidden;
         transition: all 0.6s ease-in-out;
-        border-radius: 150px 0 0 100px;
+        border-radius: 100px 0 0 100px;
         z-index: 6;
 
         &>div {

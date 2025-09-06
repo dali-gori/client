@@ -4,19 +4,24 @@
     flex-direction: column;
     gap: 7.5rem;
     width: 100%;
+    font-family: var(--font-montserrat);
     padding: 6.9rem 0;
 
     h1 {
         font-weight: 400;
-        font-size: 2.8rem;
-        font-family: var(--font-inter);
+        text-align: center;
+        color: #404040;
+        font-size: 2.2rem;
 
         span {
+            font-size: 2.6rem;
             font-weight: 700;
+            color: #343434;
+            text-transform: uppercase;
         }
     }
 
-    & > article {
+    &>article {
         display: flex;
         flex-direction: column;
         width: 80%;
@@ -36,7 +41,7 @@
                     grid-column: 2 / span 1;
                     grid-row: 1 / 1;
                 }
-                
+
                 article {
                     grid-column: 1 / span 1;
                 }
@@ -59,12 +64,10 @@
 
                     h3 {
                         font-size: 5rem;
-                        font-family: var(--font-montserrat);
                         font-weight: 100;
                     }
 
                     p {
-                        font-family: var(--font-inter);
                         font-size: 1.67rem;
                     }
                 }
