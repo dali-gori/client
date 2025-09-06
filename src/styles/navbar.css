@@ -43,6 +43,7 @@ header {
                 font-weight: 400;
                 font-size: 1.1rem;
                 color: var(--color-black);
+                cursor: pointer;
 
                 &.active:not(.org-name) {
                     font-weight: 700;

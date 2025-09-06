@@ -1,24 +1,76 @@
 import { useState } from "react";
+import { endpoints } from "../api/endpoints";
+import { useNavigate } from "react-router";
 
 const LoginPage = () => {
     const [isActive, setIsActive] = useState(false);
+    const navigate = useNavigate();
+
+    const onLoginSubmit = async (e) => {
+        e.preventDefault();
+
+        const { email, password } = Object.fromEntries(new FormData(e.target));
+        try {
+            const res = await fetch(endpoints.login, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+
+            if (data) {
+                localStorage.setItem("accessToken", data.accessToken);
+                navigate("/");
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const onRegisterSubmit = async (e) => {
+        e.preventDefault();
+
+        const { name, phone, email, password } = Object.fromEntries(new FormData(e.target));
+        try {
+            const res = await fetch(endpoints.register, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password, name, phoneNumber: phone }),
+            });
+            const data = await res.json();
+
+            if (data) {
+                localStorage.setItem("accessToken", data.accessToken);
+                navigate("/");
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <section id="login" className={`${isActive && "active"}`}>
             <article className="register">
-                <form>
+                <form onSubmit={onRegisterSubmit}>
                     <h1>Създай акаунт</h1>
-                    <input type="text" placeholder="Име" />
-                    <input type="email" placeholder="Имейл" />
-                    <input type="password" placeholder="Парола" />
+                    <input type="text" name="name" placeholder="Име" />
+                    <input type="text" name="phone" placeholder="Тел. номер" />
+                    <input type="email" name="email" placeholder="Имейл" />
+                    <input type="password" name="password" placeholder="Парола" />
                     <button>Регистрация</button>
                 </form>
             </article>
             <article className="login">
-                <form>
+                <form onSubmit={onLoginSubmit}>
                     <h1>Вход в профила</h1>
-                    <input type="email" placeholder="Имейл" />
-                    <input type="password" placeholder="Парола" />
+                    <input type="email" placeholder="Имейл" name="email" />
+                    <input type="password" placeholder="Парола" name="password" />
                     <button>Влизане</button>
                 </form>
             </article>
