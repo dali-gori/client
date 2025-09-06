@@ -1,6 +1,7 @@
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 
 import '/src/styles/app.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import MainLayout from './layouts/MainLayout.jsx';
 

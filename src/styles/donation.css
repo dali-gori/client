@@ -60,7 +60,7 @@
                     grid-column: auto;
                 }
 
-                input:not([type="checkbox"]) {
+                input:not([type="checkbox"]), textarea {
                     background: #F2F4F8;
                     padding: 1rem 1.2rem;
                     border-radius: 10px;
@@ -68,6 +68,8 @@
                     transition: all 0.2s linear;
                     border: 1px solid transparent;
                     border-bottom: 1px solid #C1C7CD;
+                    resize: none;
+                    font-family: var(--font-inter);
 
                     &:focus {
                         border: 1px solid var(--color-primary);

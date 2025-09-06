@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { endpoints } from "../api/endpoints";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
     const [isActive, setIsActive] = useState(false);
@@ -25,11 +26,12 @@ const LoginPage = () => {
             }
 
             localStorage.setItem("accessToken", data.accessToken);
+            toast.success("Успешен вход!");
             navigate("/");
         }
         catch (error) {
             console.log(error);
-            alert(error.message);
+            toast.error(error.message);
         }
     }
 
@@ -52,11 +54,12 @@ const LoginPage = () => {
             }
 
             localStorage.setItem("accessToken", data.accessToken);
+            toast.success("Успешна регистрация!");
             navigate("/");
         }
         catch (error) {
             console.log(error);
-            alert(error.message);
+            toast.error(error.message);
         }
     }
 

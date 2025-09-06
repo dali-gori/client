@@ -114,12 +114,19 @@
                 width: 30%;
                 border-radius: 20px;
                 padding: 4rem 3.33rem;
+                position: relative;
+
+                img {
+                    position: absolute;
+                    top: 1.4rem;
+                    right: 1.4rem;
+                }
 
                 &:nth-child(1) {
-                    border: var(--color-green) 3px solid;
+                    border: #F58E44 3px solid;
 
                     a {
-                        color: var(--color-green);
+                        color: #F58E44;
                     }
                 }
 
@@ -132,10 +139,10 @@
                 }
 
                 &:nth-child(3) {
-                    border: #F58E44 3px solid;
+                    border: var(--color-green) 3px solid;
 
                     a {
-                        color: #F58E44;
+                        color: var(--color-green);
                     }
                 }
 

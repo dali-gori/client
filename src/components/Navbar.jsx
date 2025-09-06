@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { endpoints } from "../api/endpoints";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("accessToken") !== null);
     const location = useLocation();
+    const navigate = useNavigate();
 
     async function logoutUser(e) {
         e.preventDefault();
@@ -26,10 +28,12 @@ const Navbar = () => {
 
             localStorage.removeItem("accessToken");
             setIsLoggedIn(false);
+            toast.success("Успешен изход!");
+            navigate("/");
         }
         catch (error) {
             console.error(error);
-            alert(error.message);
+            toast.error(error.message);
         }
     }
 

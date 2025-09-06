@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router";
 import Navbar from "../components/Navbar";
 import { useEffect } from "react";
 import Footer from "../components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = () => {
     const location = useLocation();
@@ -12,6 +13,7 @@ const MainLayout = () => {
 
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
             <Navbar />
             <main>
                 <Outlet />
