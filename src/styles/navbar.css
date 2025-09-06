@@ -26,6 +26,7 @@ header {
         justify-content: center;
         padding: 1.5rem 2rem;
         width: 100%;
+        border-bottom: 1px solid var(--color-black);
 
         ul {
             display: flex;
@@ -60,7 +61,7 @@ header {
 
                 &.login:hover {
                     color: var(--color-white);
-                    filter: brightness(85%); 
+                    filter: brightness(85%);
                 }
 
                 &.org-name:hover {
