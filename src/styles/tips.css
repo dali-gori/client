@@ -71,7 +71,7 @@
 
                 hr {
                     height: 1px;
-                    background: var(--color-black);
+                    background: #D7D7D7;
                 }
             }
         }

@@ -92,7 +92,7 @@
             align-self: stretch;
 
             &:hover {
-                text-decoration: underline;
+                filter: brightness(95%);
             }
         }
     }

@@ -13,7 +13,7 @@ const Navbar = () => {
                     <li><NavLink to="/donation">Направи дарение</NavLink></li>
                     <li><NavLink to="/" className="org-name">ДАЛИГОРИ.БГ</NavLink></li>
                     <li><NavLink to="/tips">10 съвета...</NavLink></li>
-                    <li><NavLink to="/login" className="login">Влизане</NavLink></li>
+                    <li><NavLink to="/login" className="login">Вход</NavLink></li>
                 </ul>
             </nav>
         </header>

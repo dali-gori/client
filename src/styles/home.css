@@ -1,5 +1,4 @@
 #home {
-    background: #000;
 
     #home-map {
         width: 100%;
@@ -56,7 +55,6 @@
     }
 
     #about-us {
-        background: var(--color-white);
         display: grid;
         grid-template-columns: 65% 35%;
         padding: 8.7rem 13%;
@@ -66,7 +64,7 @@
             display: flex;
             flex-direction: column;
             gap: 3rem;
-            font-family: var(--font-inter);
+            font-family: var(--font-montserrat);
 
             h2 {
                 font-weight: 400;
@@ -81,7 +79,84 @@
         img {
             width: 100%;
             border-radius: 20px;
-            aspect-ratio: 1 / 1;
+        }
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: var(--color-black);
+        width: 100%;
+    }
+
+    #mission {
+        display: flex;
+        flex-direction: column;
+        padding: 6.6rem 13%;
+        font-family: var(--font-montserrat);
+        gap: 2rem;
+
+        h2 {
+            font-weight: 400;
+            font-size: 3.47rem;
+        }
+
+        article {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            section {
+                display: flex;
+                flex-direction: column;
+                gap: 1.67rem;
+                width: 30%;
+                border-radius: 20px;
+                padding: 4rem 3.33rem;
+
+                &:nth-child(1) {
+                    border: var(--color-green) 3px solid;
+
+                    a {
+                        color: var(--color-green);
+                    }
+                }
+
+                &:nth-child(2) {
+                    border: var(--color-blue) 3px solid;
+
+                    a {
+                        color: var(--color-blue);
+                    }
+                }
+
+                &:nth-child(3) {
+                    border: #F58E44 3px solid;
+
+                    a {
+                        color: #F58E44;
+                    }
+                }
+
+                h3 {
+                    font-weight: 700;
+                    font-size: 1.5rem;
+                }
+
+                p {
+                    font-weight: 400;
+                    font-size: 1.11rem;
+                    line-height: 1.5;
+                }
+
+                a {
+                    display: flex;
+                    gap: 0.6rem;
+                    align-items: center;
+                    font-size: 1.11rem;
+                    font-weight: 700;
+                }
+            }
         }
     }
 }

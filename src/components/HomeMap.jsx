@@ -3,8 +3,6 @@ import "leaflet/dist/leaflet.css";
 import FullscreenMap from "./FullScreenMap";
 
 const HomeMap = () => {
-    const mapboxApiKey = import.meta.env.VITE_MAPBOX_API_KEY;
-
     return (
         <section id="home-map">
             <ul>
