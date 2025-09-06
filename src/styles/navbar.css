@@ -58,9 +58,18 @@ header {
                     border-radius: 10px;
                 }
 
+                &.login:hover {
+                    color: var(--color-white);
+                    filter: brightness(85%); 
+                }
+
+                &.org-name:hover {
+                    color: var(--color-black)
+                }
 
                 &:hover {
-                    text-decoration: underline;
+                    color: var(--color-primary);
+                    transition: all 0.2s linear;
                 }
             }
         }
