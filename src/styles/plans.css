@@ -5,91 +5,179 @@
     align-items: center;
     padding-top: 10.5rem;
     padding-bottom: 3.9rem;
+    flex-direction: column;
+    gap: 3.5rem;
+    font-family: var(--font-montserrat);
 
-    article {
+    h1 {
+        font-weight: 700;
+        font-size: 2.64rem;
+    }
+
+    article:not(.enterprise) {
         display: flex;
-        flex-direction: column;
-        gap: 1.39rem;
-        align-items: start;
-        padding: 4.2rem 3.3rem;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+
+        article {
+            display: flex;
+            flex-direction: column;
+            gap: 1.11rem;
+            align-items: start;
+            border-radius: 13px;
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s linear;
+            border: 3px solid var(--color-green);
+            padding: 4.2rem 3.3rem;
+            width: 28%;
+
+            &:hover {
+                transform: translateY(-10px);
+                box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.15);
+            }
+
+            &.bigger {
+                padding: 5.7rem 3.3rem;
+                gap: 2.71rem;
+                border: 3px solid var(--color-blue);
+                width: 35%;
+
+                h3 {
+                    color: var(--color-blue);
+                }
+
+                p {
+                    color: var(--color-blue);
+
+                    &:last-of-type {
+                        margin-top: -2.5rem;
+                    }
+                }
+
+                span {
+                    color: var(--color-blue);
+                }
+
+                button {
+                    background: var(--color-primary);
+                    color: var(--color-white);
+                }
+            }
+
+            h3 {
+                font-weight: 600;
+                font-size: 2.15rem;
+                color: var(--color-green);
+            }
+
+            p {
+                font-weight: 400;
+                font-size: 1.11rem;
+                color: var(--color-green);
+                text-align: center;
+
+                &:last-of-type {
+                    margin-top: -1rem;
+                }
+            }
+
+            span {
+                display: flex;
+                align-items: baseline;
+                justify-content: center;
+                gap: 0.7rem;
+                font-weight: 700;
+                font-size: 2rem;
+                color: var(--color-green);
+            }
+
+            button {
+                font-weight: 400;
+                font-size: 0.83rem;
+                color: var(--color-primary);
+                background: var(--color-white);
+                border: 1px solid var(--color-primary);
+                padding: 1.2rem 4.6rem;
+                border-radius: 10px;
+                transition: all 0.2s linear;
+                cursor: pointer;
+                align-self: stretch;
+
+                &:hover {
+                    filter: brightness(95%);
+                }
+            }
+        }
+    }
+
+    .enterprise {
+        display: flex;
+        gap: 1.11rem;
+        align-items: center;
+        justify-content: space-between;
         border-radius: 13px;
         box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.1);
         transition: all 0.2s linear;
-        background: #d9d9d9;
+        border: 3px solid var(--color-green);
+        padding: 4.2rem 3.3rem;
+        width: 100%;
 
         &:hover {
             transform: translateY(-10px);
             box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.15);
         }
 
-        &.bigger {
-            padding: 5.7rem 3.3rem;
-            gap: 2.71rem;
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 1.11rem;
+            align-items: start;
+            width: 100%;
         }
 
         h3 {
-            font-family: var(--font-montserrat);
             font-weight: 600;
             font-size: 2.15rem;
-            color: var(--color-black);
+            color: var(--color-green);
         }
 
         p {
-            font-family: var(--font-inter);
             font-weight: 400;
             font-size: 1.11rem;
-            color: var(--color-black);
+            color: var(--color-green);
             text-align: center;
-            line-height: 1.5;
-        }
 
-        /* span {
-            font-family: var(--font-montserrat);
-            font-weight: 700;
-            font-size: 2rem;
-            color: var(--color-black);
-        } */
+            &:nth-child(2) {
+                margin-bottom: -1rem;
+            }
+
+            &:nth-child(4) {
+                margin-top: -1rem;
+            }
+        }
 
         span {
             display: flex;
             align-items: baseline;
             justify-content: center;
             gap: 0.7rem;
-            margin: 1.2rem 0 0.5rem 0;
-            font-family: var(--font-montserrat);
-
-            b {
-                font-weight: 700;
-                font-size: 2rem;
-                color: var(--color-black);
-            }
-
-            span {
-                font-size: 1.1rem;
-                font-weight: 400;
-                color: #666;
-                margin-left: 0.2rem;
-
-                &:nth-child(1) {
-                    font-weight: 700;
-                    font-size: 2rem;
-                    color: red;
-                }
-            }
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 2rem;
+            color: var(--color-green);
         }
 
         button {
-            font-family: var(--font-montserrat);
-            font-weight: 600;
-            font-size: 1.11rem;
-            color: var(--color-white);
-            background: var(--color-primary);
+            font-weight: 400;
+            color: var(--color-primary);
+            background: var(--color-white);
+            border: 1px solid var(--color-primary);
             padding: 1.2rem 4.6rem;
             border-radius: 10px;
-            margin-top: auto;
             transition: all 0.2s linear;
             cursor: pointer;
-            align-self: stretch;
+            font-size: 0.83rem;
 
             &:hover {
                 filter: brightness(95%);
