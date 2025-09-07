@@ -114,7 +114,7 @@ export default function ReportDetailsContainer() {
                                     </li>
                                 </>}
                         </ul>
-                        <button disabled={!selectedReport.items.length} type="button" href="#" className="accent-button" onClick={() => setShowModal(true)}>Помогни</button>
+                        <button disabled={!selectedReport.items.length} type="button" href="#" className="accent-button" onClick={() => setShowModal(true)}>Помогни сега</button>
                     </div>
                 </div>
             </div>
