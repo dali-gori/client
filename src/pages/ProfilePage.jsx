@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { endpoints } from "../api/endpoints";
+import WildfireMap from "../components/StationMap";
 
 const ProfilePage = () => {
     const [role, setRole] = useState("");
@@ -27,6 +28,7 @@ const ProfilePage = () => {
 
     return (
         <section id="profile">
+            <WildfireMap />
             {role == 1 ? (
                 <Link to="/plans"><button type="button" href="#" className="accent-button">Промени план</button></Link>
             ): <></>}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelectedReport } from "../contexts/SelectedReportContext";
 import FireIcon from "./FireIcon";
 import { endpoints } from "../api/endpoints";
@@ -7,10 +7,32 @@ import { toast } from "react-toastify";
 export default function ReportDetailsContainer() {
     const { selectedReport, setSelectedReport } = useSelectedReport();
     const [showModal, setShowModal] = useState(false);
-    const [selectedItem, setSelectedItem] = useState("");
+    const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState("");
     const [phone, setPhone] = useState("");
     const [names, setNames] = useState("");
+    const [user, setUser] = useState({});
+    const [newItemName, setNewItemName] = useState("");
+    const [newItemQuantity, setNewItemQuantity] = useState("");
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await fetch(endpoints.me, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                },
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setUser(data);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     if (!selectedReport) {
         return (
@@ -43,7 +65,7 @@ export default function ReportDetailsContainer() {
         try {
             const res = await fetch(endpoints.createItemDonation, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem("accessToken") },
                 body: JSON.stringify(payload),
             });
 
@@ -64,13 +86,54 @@ export default function ReportDetailsContainer() {
 
             toast.success("Успешно изпратено! Благодарим за помощта ❤️");
             setShowModal(false);
-            setSelectedItem("");
+            setSelectedItem(null);
             setQuantity(1);
             setNames("");
             setPhone("");
         } catch (err) {
             console.error("Request error:", err);
             toast.error("Грешка при връзка със сървъра. ", err);
+        }
+    };
+
+    const onAddItem = async () => {
+        if (!newItemName || !newItemQuantity) return;
+
+        const payload = {
+            reportId: selectedReport.id,
+            name: newItemName,
+            quantity: Number(newItemQuantity),
+        };
+
+        try {
+            console.log(user.roleId)
+            const res = await fetch(endpoints.addItem, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem("accessToken") },
+                body: JSON.stringify(payload),
+            });
+
+
+            if (!res.ok) {
+                const error = await res.json();
+                toast.error("Неуспешно добавяне: " + (error.message || "Грешка"));
+                return;
+            }
+
+            const data = await res.json();
+
+            console.log(data);
+
+            let newReport = { ...selectedReport };
+            newReport.items = [...newReport.items, data.item];
+            setSelectedReport(newReport);
+
+            toast.success("Успешно добавен артикул ✅");
+            setNewItemName("");
+            setNewItemQuantity("");
+        } catch (err) {
+            console.error("Add item error:", err);
+            toast.error("Грешка при връзка със сървъра.");
         }
     };
 
@@ -100,10 +163,10 @@ export default function ReportDetailsContainer() {
                             {selectedReport.items.length ? selectedReport.items.map((h, idx) => (
                                 <li key={idx}>
                                     <div className="large">
-                                        {h.name}
+                                        {h?.name}
                                     </div>
                                     <div className="small">
-                                        x{h.quantity}
+                                        x{h?.quantity}
                                     </div>
                                 </li>
                             )) :
@@ -115,7 +178,49 @@ export default function ReportDetailsContainer() {
                                     </li>
                                 </>}
                         </ul>
-                        <button disabled={!selectedReport.items.length} type="button" href="#" className="accent-button" onClick={() => setShowModal(true)}>Помогни</button>
+                        {user.roleId == 2 && (
+                            <div className="add-item-form">
+                                <select
+                                    className="form-select"
+                                    value={newItemName}
+                                    onChange={(e) => setNewItemName(e.target.value)}
+                                >
+                                    <option value="">— избери артикул —</option>
+                                    {/* Ideally these come from some global catalog of items */}
+                                    <option value="Вода">Вода</option>
+                                    <option value="Храна">Храна</option>
+                                    <option value="Дрехи">Дрехи</option>
+                                </select>
+
+                                <input
+                                    type="number"
+                                    className="form-input"
+                                    value={newItemQuantity}
+                                    onChange={(e) => setNewItemQuantity(e.target.value)}
+                                    placeholder="Количество"
+                                    min={1}
+                                />
+
+                                <button
+                                    type="button"
+                                    className="icon-button"
+                                    onClick={onAddItem}
+                                >
+                                    +
+                                </button>
+                            </div>
+                        )}
+
+                        {user.roleId == 1 && (
+                            <button
+                                disabled={!selectedReport.items.length}
+                                type="button"
+                                className="accent-button"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Помогни
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

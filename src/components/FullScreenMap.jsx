@@ -167,6 +167,8 @@ export default function FullscreenMap() {
                             bounds.extend([item.lng, item.lat]);
                         }
 
+                        console.log(item);
+
                         // flame icon feature
                         pointFeatures.push({
                             type: "Feature",
@@ -263,38 +265,36 @@ export default function FullscreenMap() {
                                 // Remove existing click listener first (defensive)
                                 // NOTE: map.off requires the exact function reference; if you re-create this code block you may end up with duplicated handlers.
                                 // For typical usage, this block runs once per load, so it's fine.
-                                map.on("click", REPORT_LAYER, (e) => {
+                                map.on("click", REPORT_LAYER, async (e) => {
                                     const f = e.features && e.features[0];
                                     if (!f) return;
-                                    const props = f.properties || {};
-                                    let history = [];
+                                
+                                    const reportId = f.properties?._id;
+                                    if (!reportId) return;
+                                
                                     try {
-                                        history = JSON.parse(props.statusHistory || "[]");
+                                        // fetch the up-to-date report from your API
+                                        const res = await fetch(endpoints.reportById(reportId));
+                                        if (!res.ok) throw new Error("Failed to fetch report");
+                                        const report = await res.json();
+                                
+                                        setSelectedReport({
+                                            id: report.id,
+                                            lat: Number(report.lat),
+                                            lng: Number(report.lng),
+                                            statusText: report.statusText,
+                                            statusHistory: report.statusHistory,
+                                            latestId: Number(report.latestStatusId || 0),
+                                            items: report.items,
+                                        });
+                                
+                                        // Smooth scroll to the details box
+                                        const box = document.getElementById("reportDetails");
+                                        if (box) {
+                                            box.scrollIntoView({ block: "center", behavior: "smooth" });
+                                        }
                                     } catch (err) {
-                                        history = [];
-                                    }
-
-                                    let items = [];
-                                    try {
-                                        items = JSON.parse(props.items || "[]");
-                                    } catch (err) {
-                                        items = [];
-                                    }
-
-                                    setSelectedReport({
-                                        id: f.properties?._id,
-                                        lat: Number(f.properties?.lat),
-                                        lng: Number(f.properties?.lng),
-                                        statusText: f.properties?.statusText,
-                                        statusHistory: history,
-                                        latestId: Number(f.properties?.latestId || 0),
-                                        items: items
-                                    });
-
-                                    // Smooth scroll to the details box
-                                    const box = document.getElementById("reportDetails");
-                                    if (box) {
-                                        box.scrollIntoView({ block: "center", behavior: "smooth" });
+                                        console.error("Error fetching report:", err);
                                     }
                                 });
 
