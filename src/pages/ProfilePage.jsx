@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { endpoints } from "../api/endpoints";
+<<<<<<< Updated upstream
 import WildfireMap from "../components/StationMap";
+=======
+import WildfireMap from "../components/WildfireMap";
+>>>>>>> Stashed changes
 
 const ProfilePage = () => {
     const [role, setRole] = useState("");
@@ -32,6 +36,7 @@ const ProfilePage = () => {
             {role == 1 ? (
                 <Link to="/plans"><button type="button" href="#" className="accent-button">Промени план</button></Link>
             ): <></>}
+            <WildfireMap />
         </section>
     );
 }
