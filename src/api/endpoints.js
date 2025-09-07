@@ -6,5 +6,6 @@ export const endpoints = {
     logout: `${baseUrl}/auth/logout`,
     createItemDonation: `${baseUrl}/item-donations`,
     homeMap: `${baseUrl}/home-map`,
-    isOnFire: (x, y) => `${baseUrl}/home-map/status/${x}/${y}`
+    isOnFire: (x, y) => `${baseUrl}/home-map/status/${x}/${y}`,
+    me: `${baseUrl}/auth/me`
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelectedReport } from "../contexts/SelectedReportContext";
 import FireIcon from "./FireIcon";
 import { endpoints } from "../api/endpoints";
+import { toast } from "react-toastify";
 
 export default function ReportDetailsContainer() {
     const { selectedReport, setSelectedReport } = useSelectedReport();
@@ -49,7 +50,7 @@ export default function ReportDetailsContainer() {
             if (!res.ok) {
                 const error = await res.json();
                 console.error("Donation failed:", error);
-                toast.success("Неуспешно изпращане: " + (error.message || "Грешка"));
+                toast.error("Неуспешно изпращане: " + (error.message || "Грешка"));
                 return;
             }
 
@@ -69,7 +70,7 @@ export default function ReportDetailsContainer() {
             setPhone("");
         } catch (err) {
             console.error("Request error:", err);
-            toast.error("Грешка при връзка със сървъра.");
+            toast.error("Грешка при връзка със сървъра. ", err);
         }
     };
 

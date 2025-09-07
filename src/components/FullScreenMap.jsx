@@ -50,6 +50,28 @@ function clusterHotspots(coords, maxDistanceKm = 2) {
     });
 }
 
+function makeCircle(lng, lat, radiusMeters, steps = 64) {
+    const coords = [];
+    const distanceX = radiusMeters / (111320 * Math.cos((lat * Math.PI) / 180));
+    const distanceY = radiusMeters / 111320;
+
+    for (let i = 0; i <= steps; i++) {
+        const angle = (i / steps) * (2 * Math.PI);
+        const dx = Math.cos(angle) * distanceX;
+        const dy = Math.sin(angle) * distanceY;
+        coords.push([lng + dx, lat + dy]);
+    }
+
+    return {
+        type: "Feature",
+        geometry: {
+            type: "Polygon",
+            coordinates: [coords],
+        },
+        properties: {},
+    };
+}
+
 // --- Lightweight Dev Tests (run in browser console) ------------------------
 (() => {
     if (typeof window === "undefined" || !console?.assert) return;
@@ -124,6 +146,8 @@ export default function FullscreenMap() {
 
                     // Build GeoJSON FeatureCollection for sat_data (hotspots)
                     const features = [];
+                    const pointFeatures = [];
+                    const circleFeatures = [];
                     const bounds = new mapboxgl.LngLatBounds();
 
 
@@ -133,43 +157,51 @@ export default function FullscreenMap() {
                     const REPORT_LAYER = "reports-layer";
 
                     // Build Features for reports and extend the same `bounds` used by hotspots
-                    const reportFeatures = (Array.isArray(data.report_data) ? data.report_data : [])
-                        .map((item, idx) => {
-                            if (!item || typeof item.lat !== "number" || typeof item.lng !== "number") return null;
-                            const latest = Array.isArray(item.statusHistory) && item.statusHistory.length
-                                ? item.statusHistory[item.statusHistory.length - 1]
-                                : null;
-                            const latestId = latest ? latest.reportStatusId : null;
+                    (Array.isArray(data.report_data) ? data.report_data : []).forEach((item, idx) => {
+                        if (!item || typeof item.lat !== "number" || typeof item.lng !== "number") return;
 
-                            // extend the same `bounds` variable you used for sat_data so fitBounds includes both
-                            if (typeof bounds !== "undefined" && bounds && bounds.extend) {
-                                bounds.extend([item.lng, item.lat]);
-                            }
+                        const latestId = item.latestStatusId ?? 0;
 
-                            return {
-                                type: "Feature",
-                                geometry: { type: "Point", coordinates: [item.lng, item.lat] },
-                                properties: {
-                                    _id: item.id ?? idx,
-                                    statusText: item.statusText ?? "",
-                                    latestId: latestId,
-                                    // stringify history so we can store the array in GeoJSON properties
-                                    statusHistory: JSON.stringify(item.statusHistory ?? []),
-                                    lat: item.lat,
-                                    lng: item.lng,
-                                    items: JSON.stringify(item.items ?? [])
-                                },
+                        // extend bounds for fitBounds to include report locations
+                        if (typeof bounds !== "undefined" && bounds && bounds.extend) {
+                            bounds.extend([item.lng, item.lat]);
+                        }
+
+                        // flame icon feature
+                        pointFeatures.push({
+                            type: "Feature",
+                            geometry: { type: "Point", coordinates: [item.lng, item.lat] },
+                            properties: {
+                                _id: item.id ?? idx,
+                                statusText: item.statusText ?? "",
+                                latestId,
+                                statusHistory: JSON.stringify(item.statusHistory ?? []),
+                                lat: item.lat,
+                                lng: item.lng,
+                                items: JSON.stringify(item.items ?? []),
+                            },
+                        });
+
+                        // circle radius feature if present
+                        if (item.radius && item.radius > 0) {
+                            const circleFeature = makeCircle(item.lng, item.lat, item.radius);
+                            // attach useful props if you want to style by status later
+                            circleFeature.properties = {
+                                _id: item.id ?? idx,
+                                latestId,
                             };
-                        })
-                        .filter(Boolean);
+                            circleFeatures.push(circleFeature);
+                        }
+                    });
 
-                    const reportCollection = { type: "FeatureCollection", features: reportFeatures };
+                    const pointCollection = { type: "FeatureCollection", features: pointFeatures };
+                    const circleCollection = { type: "FeatureCollection", features: circleFeatures };
 
                     // add/update source
                     if (map.getSource(REPORT_SRC)) {
-                        map.getSource(REPORT_SRC).setData(reportCollection);
+                        map.getSource(REPORT_SRC).setData(pointCollection);
                     } else {
-                        map.addSource(REPORT_SRC, { type: "geojson", data: reportCollection });
+                        map.addSource(REPORT_SRC, { type: "geojson", data: pointCollection });
 
                         // helper to create the SVG data URL
                         const fireSvg = (color) =>
@@ -262,7 +294,7 @@ export default function FullscreenMap() {
                                     // Smooth scroll to the details box
                                     const box = document.getElementById("reportDetails");
                                     if (box) {
-                                      box.scrollIntoView({ block: "center", behavior: "smooth"});
+                                        box.scrollIntoView({ block: "center", behavior: "smooth" });
                                     }
                                 });
 
@@ -287,6 +319,24 @@ export default function FullscreenMap() {
                                     });
                                 }
                             });
+                    }
+
+                    const REPORT_CIRCLE_SRC = "reports-circle-src";
+                    const REPORT_CIRCLE_LAYER = "reports-circle-layer";
+
+                    if (map.getSource(REPORT_CIRCLE_SRC)) {
+                        map.getSource(REPORT_CIRCLE_SRC).setData(circleCollection);
+                    } else {
+                        map.addSource(REPORT_CIRCLE_SRC, { type: "geojson", data: circleCollection });
+                        map.addLayer({
+                            id: REPORT_CIRCLE_LAYER,
+                            type: "fill",
+                            source: REPORT_CIRCLE_SRC,
+                            paint: {
+                                "fill-color": "#fc9d03", // or use a function to match latestId for color
+                                "fill-opacity": 0.4
+                            }
+                        });
                     }
                     // ---------- end reports ----------
 
