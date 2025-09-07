@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { endpoints } from "../api/endpoints";
-<<<<<<< Updated upstream
-import WildfireMap from "../components/StationMap";
-=======
-import WildfireMap from "../components/WildfireMap";
->>>>>>> Stashed changes
+import StationMap from "../components/StationMap"; // Stations admin map
+import WildfireMap from "../components/WildfireMap"; // User saved locations map
 
 const ProfilePage = () => {
     const [role, setRole] = useState("");
@@ -30,13 +27,44 @@ const ProfilePage = () => {
     }, []);
 
 
+    async function logoutUser(e) {
+        e.preventDefault();
+
+        try {
+            const res = await fetch(endpoints.logout, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+
+            localStorage.removeItem("accessToken");
+            setIsLoggedIn(false);
+            toast.success("Успешен изход!");
+            navigate("/");
+        }
+        catch (error) {
+            console.error(error);
+            toast.error(error.message);
+        }
+    }
+
     return (
         <section id="profile">
-            <WildfireMap />
             {role == 1 ? (
-                <Link to="/plans"><button type="button" href="#" className="accent-button">Промени план</button></Link>
-            ): <></>}
-            <WildfireMap />
+                <>
+                    <WildfireMap />
+                    <Link to="/plans"><button type="button" className="accent-button">Промени план</button></Link>
+                </>
+            ) : <StationMap />}
+            <a onClick={logoutUser} className="accent-button">Изход</a>
         </section>
     );
 }

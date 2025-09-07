@@ -1,11 +1,8 @@
-<<<<<<< Updated upstream
-const baseUrl = "https://server-production-32f2.up.railway.app";
-//const baseUrl = "http://localhost:3000";
-=======
 // const baseUrl = "https://server-production-32f2.up.railway.app";
-const baseUrl = "http://localhost:3001";
+//const baseUrl = "http://localhost:3000";
+// const baseUrl = "https://server-production-32f2.up.railway.app";
+const baseUrl = "http://localhost:3000";
 
->>>>>>> Stashed changes
 export const endpoints = {
     login: `${baseUrl}/auth/login`,
     register: `${baseUrl}/auth/register`,

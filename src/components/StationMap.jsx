@@ -6,7 +6,7 @@ import { endpoints } from "../api/endpoints";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
-export default function WildfireMap() {
+export default function StationMap() {
     const mapContainerRef = useRef(null);
     const mapRef = useRef(null);
 
