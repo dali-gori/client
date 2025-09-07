@@ -1,5 +1,4 @@
 #home {
-
     #home-map {
         width: 100%;
         position: relative;
@@ -57,7 +56,7 @@
     #reportDetails {
         background: var(--color-white);
         padding: 3.7rem 13% 0 13%;
-        font-family: var(--font-inter);
+        font-family: var(--font-montserrat);
 
         .modal-overlay {
             position: fixed;
@@ -178,37 +177,49 @@
             background: #d9d9d9;
             border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 1.7rem;
+            padding: 1.7rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
 
-            h1,
-            h3 {
+            h1 {
                 text-align: center;
-
-                span {
-                    margin-right: 0.2rem;
-                }
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3rem;
+                gap: 1rem;
+                color: #404040;
             }
 
             .data-wrapper {
                 display: flex;
                 justify-content: center;
-                gap: 3rem;
+                gap: 4.3rem;
                 width: 100%;
-                margin-top: 1.8rem;
 
-                div {
-                    padding: 1.7rem;
+                &>div {
+                    padding: 3.2rem 3%;
                     background-color: var(--color-white);
                     border-radius: 23px;
                     width: 33%;
-                    min-width: 7rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 3rem;
 
                     h2 {
                         text-align: center;
+                        color: #404040;
+                        font-weight: 600;
+                        font-size: 1.95em;
                     }
 
                     ul {
-                        margin-top: 0.5rem;
+                        display: flex;
+                        flex-direction: column;
+                        align-content: center;
+                        width: 100%;
                     }
 
                     ul.history li {
@@ -216,7 +227,6 @@
                         padding: 0.5rem;
                         border: 1px solid #888;
                         border-radius: 23px;
-                        margin-bottom: 0.3rem;
                         min-height: 3rem;
                         text-align: center;
                     }
@@ -226,7 +236,6 @@
                             display: flex;
                             justify-content: space-between;
                             border-radius: 23px;
-                            margin-bottom: 0.3rem;
                             min-height: 3rem;
                             background-color: var(--white);
                             color: #404040;
@@ -236,12 +245,14 @@
                                 color: var(--color-black);
                             }
 
-                            div {
-                                padding: 0.8rem;
+                            &.empty {
+                                display: inline;
+                                min-height: fit-content;
                             }
 
                             .large {
                                 flex-grow: 2;
+                                text-align: center;
                             }
 
                             .small {

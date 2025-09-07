@@ -22,7 +22,7 @@ export default function ReportDetailsContainer() {
     }
 
     const color =
-    selectedReport.latestId === 1 || selectedReport.latestId === 4
+        selectedReport.latestId === 1 || selectedReport.latestId === 4
             ? "#FF7410"
             : selectedReport.latestId === 2
                 ? "#0095FF"
@@ -49,7 +49,7 @@ export default function ReportDetailsContainer() {
             if (!res.ok) {
                 const error = await res.json();
                 console.error("Donation failed:", error);
-                alert("Неуспешно изпращане: " + (error.message || "Грешка"));
+                toast.success("Неуспешно изпращане: " + (error.message || "Грешка"));
                 return;
             }
 
@@ -57,11 +57,11 @@ export default function ReportDetailsContainer() {
 
             let newReport = selectedReport;
             newReport.items.map((e) => {
-                if(e.id === data.item.id) e.quantity = data.item.quantity 
+                if (e.id === data.item.id) e.quantity = data.item.quantity
             })
             setSelectedReport(newReport);
 
-            alert("Успешно изпратено! Благодарим за помощта ❤️");
+            toast.success("Успешно изпратено! Благодарим за помощта ❤️");
             setShowModal(false);
             setSelectedItem("");
             setQuantity(1);
@@ -69,7 +69,7 @@ export default function ReportDetailsContainer() {
             setPhone("");
         } catch (err) {
             console.error("Request error:", err);
-            alert("Грешка при връзка със сървъра.");
+            toast.error("Грешка при връзка със сървъра.");
         }
     };
 
@@ -79,8 +79,7 @@ export default function ReportDetailsContainer() {
         >
             <div className="report-details-container">
                 <div>
-                    <h1><span>Пожар - {selectedReport.statusText ?? "—"}</span> <FireIcon color={color} width={24} height={24} /> </h1>
-                    <h3>Координати: {selectedReport.lat.toFixed(5)}, {selectedReport.lng.toFixed(5)}</h3>
+                    <h1><span>Пожар - {selectedReport.statusText ?? "—"}</span> <FireIcon color={color} width={29} /></h1>
                 </div>
                 <div className="data-wrapper">
                     <div>
@@ -95,7 +94,7 @@ export default function ReportDetailsContainer() {
                     </div>
 
                     <div>
-                        <h2>Необходими материали:</h2>
+                        <h2>Необходимости:</h2>
                         <ul className="items">
                             {selectedReport.items.length ? selectedReport.items.map((h, idx) => (
                                 <li key={idx}>
@@ -108,7 +107,7 @@ export default function ReportDetailsContainer() {
                                 </li>
                             )) :
                                 <>
-                                    <li>
+                                    <li className="empty">
                                         <div className="large">
                                             <i>Няма въведени</i>
                                         </div>

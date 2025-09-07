@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("accessToken") !== null);
+    const [areWeCooked, setAreWeCooked] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -37,6 +38,27 @@ const Navbar = () => {
         }
     }
 
+    navigator.geolocation.getCurrentPosition((position) => {
+        fetchIsOnFire(position.coords.latitude, position.coords.longitude);
+    });
+
+    async function fetchIsOnFire(x, y) {
+        try {
+            const res = await fetch(endpoints.isOnFire(y, x));
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error();
+            }
+
+            setAreWeCooked(data);
+        }
+        catch(err) {
+            console.error(err);
+            toast.error("Грешка при достъпването на данните!");
+        }
+    }
+
     useEffect(() => {
         setIsLoggedIn(localStorage.getItem("accessToken") !== null);
     }, [location]);
@@ -56,8 +78,8 @@ const Navbar = () => {
 
     return (
         <header>
-            <section>
-                <p>Няма опасност от пожар!</p>
+            <section className={areWeCooked ? "danger" : undefined}>
+                <p>{areWeCooked ? "Опасност от пожар!" : "Няма опасност от пожар!"}</p>
             </section>
 
             <nav>

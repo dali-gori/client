@@ -4,5 +4,7 @@ export const endpoints = {
     login: `${baseUrl}/auth/login`,
     register: `${baseUrl}/auth/register`,
     logout: `${baseUrl}/auth/logout`,
-    createItemDonation: `${baseUrl}/item-donations`
+    createItemDonation: `${baseUrl}/item-donations`,
+    homeMap: `${baseUrl}/home-map`,
+    isOnFire: (x, y) => `${baseUrl}/home-map/status/${x}/${y}`
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useSelectedReport } from "../contexts/SelectedReportContext";
+import { endpoints } from "../api/endpoints";
 
 // --- Helpers ---------------------------------------------------------------
 function getLngLatFromAny(item) {
@@ -113,8 +114,7 @@ export default function FullscreenMap() {
             map.resize();
             map.flyTo({ center: [23.3219, 42.6977], zoom: 6.5, speed: 0.6 });
 
-            //https://server-production-32f2.up.railway.app/home-map
-            fetch("http://localhost:3000/home-map")
+            fetch(endpoints.homeMap)
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data || !Array.isArray(data.sat_data)) {
