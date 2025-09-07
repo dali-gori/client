@@ -45,15 +45,20 @@ header {
                 color: var(--color-black);
                 cursor: pointer;
 
-                &.active:not(.org-name) {
+                &.active {
                     font-weight: 700;
                 }
 
                 &.org-name {
-                    font-size: 2.2rem;
-                    font-family: "Exo 2";
-                    font-weight: 700;
-                    letter-spacing: 2.5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img {
+                        height: 2.5rem;
+                        width: auto;
+                        display: block;
+                    }
                 }
 
                 &.login {
@@ -65,7 +70,7 @@ header {
 
                 &.login:hover {
                     color: var(--color-white);
-                    filter: brightness(95%); 
+                    filter: brightness(95%);
                 }
 
                 &.org-name:hover {

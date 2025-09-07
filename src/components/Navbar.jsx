@@ -14,7 +14,7 @@ const Navbar = () => {
 
         try {
             const res = await fetch(endpoints.logout, {
-                method: "GET",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -89,7 +89,7 @@ const Navbar = () => {
                 <ul>
                     <li><NavLink to="/">Начало</NavLink></li>
                     <li><NavLink to="/tips">Съвети за превенция</NavLink></li>
-                    <li><NavLink to="/" className="org-name">ДАЛИГОРИ.БГ</NavLink></li>
+                    <li><NavLink to="/" className="org-name"><img src="/images/full_logo.png" alt="full logo image" /></NavLink></li>
                     <li><NavLink to="/donation">Направи дарение</NavLink></li>
                     {isLoggedIn ? userNav : guestNav}
                 </ul>
