@@ -454,24 +454,6 @@ export default function FullscreenMap() {
                                 });
                             }
                         });
-
-                        // Popup for a single hotspot (FIXED QUOTING IN HTML STRING)
-                        map.on("click", UNCLUSTERED_LAYER, (e) => {
-                            const f = e.features?.[0];
-                            if (!f) return;
-                            const [lng, lat] = f.geometry.coordinates;
-                            const { date, time, confidence } = f.properties ?? {};
-                            new mapboxgl.Popup({ offset: 12 })
-                                .setLngLat([lng, lat])
-                                .setHTML(`<div style='font: 12px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;'>
-                  <strong>Hotspot</strong><br/>
-                  <div>${typeof lat === 'number' && Number.isFinite(lat) ? lat.toFixed(5) : lat}, ${typeof lng === 'number' && Number.isFinite(lng) ? lng.toFixed(5) : lng}</div>
-                  <div>Date: ${date ?? '—'}</div>
-                  <div>Time: ${time ?? '—'}</div>
-                  <div>Confidence: ${confidence ?? '—'}</div>
-                </div>`)
-                                .addTo(map);
-                        });
                     }
 
                     // Fit to data

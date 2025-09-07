@@ -1,0 +1,42 @@
+#not-found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.6rem;
+    width: 100%;
+    padding: 10rem 0;
+    background: #fff;
+    font-family: var(--font-montserrat);
+
+    i {
+        color: var(--color-primary);
+        font-size: 10.42rem;
+    }
+
+    h1 {
+        font-size: 4.17rem;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1.53rem;
+        font-weight: 500;
+    }
+
+    a {
+        padding: 0.7rem 1.94rem;
+        background: transparent;
+        border: 1px solid var(--color-primary);
+        border-radius: 4px;
+        color: var(--color-primary);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.25rem;
+
+        &:hover {
+            filter: brightness(95%);
+        }
+    }
+}

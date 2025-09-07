@@ -218,7 +218,7 @@ export default function ReportDetailsContainer() {
                                 className="accent-button"
                                 onClick={() => setShowModal(true)}
                             >
-                                Помогни
+                                Помогни сега
                             </button>
                         )}
                     </div>

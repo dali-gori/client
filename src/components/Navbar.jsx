@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("accessToken") !== null);
-    const [areWeCooked, setAreWeCooked] = useState(false);
+    const [areWeCooked, setAreWeCooked] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -17,8 +17,8 @@ const Navbar = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ accessToken: localStorage.getItem("accessToken") }),
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
             });
 
             const data = await res.json();
@@ -53,7 +53,7 @@ const Navbar = () => {
 
             setAreWeCooked(data);
         }
-        catch(err) {
+        catch (err) {
             console.error(err);
             toast.error("Грешка при достъпването на данните!");
         }
@@ -78,15 +78,18 @@ const Navbar = () => {
 
     return (
         <header>
-            <section className={areWeCooked ? "danger" : undefined}>
-                <p>{areWeCooked ? "Опасност от пожар!" : "Няма опасност от пожар!"}</p>
-            </section>
+            {
+                areWeCooked !== null &&
+                <section className={areWeCooked ? "danger" : undefined}>
+                    <p>{areWeCooked ? "Опасност от пожар!" : "Няма опасност от пожар!"}</p>
+                </section>
+            }
 
             <nav>
                 <ul>
                     <li><NavLink to="/">Начало</NavLink></li>
                     <li><NavLink to="/tips">Съвети за превенция</NavLink></li>
-                    <li><NavLink to="/" className="org-name">ДАЛИГОРИ.БГ</NavLink></li>
+                    <li><NavLink to="/" className="org-name"><img src="/images/full_logo.png" alt="full logo image" /></NavLink></li>
                     <li><NavLink to="/donation">Направи дарение</NavLink></li>
                     {isLoggedIn ? userNav : guestNav}
                 </ul>

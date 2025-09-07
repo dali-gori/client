@@ -11,16 +11,27 @@ import DonationPage from './pages/DonationPage.jsx';
 import PlansPage from './pages/PlansPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+
+import GuestRoutes from './guards/GuestRoutes.jsx';
+import UserRoutes from './guards/UserRoutes.jsx';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path='/' element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path='/tips' element={<TipsPage />} />
+            <Route path='/*' element={<NotFoundPage />} />
             <Route path='/donation' element={<DonationPage />} />
-            <Route path='/plans' element={<PlansPage />} />
-            <Route path='/login' element={<LoginPage />} />
+
+            <Route element={<GuestRoutes />} >
+                <Route path='/login' element={<LoginPage />} />
+            </Route>
+
+            <Route element={<UserRoutes />} >
             <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/plans' element={<PlansPage />} />
+            </Route>
         </Route>
     )
 );
