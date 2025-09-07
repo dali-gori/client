@@ -177,7 +177,7 @@
             background: #d9d9d9;
             border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 4rem 0;
+            padding: 4rem 2rem;
             display: flex;
             flex-direction: column;
             gap: 2.5rem;
