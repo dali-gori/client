@@ -65,8 +65,8 @@ const Navbar = () => {
 
     const userNav = (
         <>
-            {/* <li><NavLink to="/profile" className="login">Профил</NavLink></li> */}
-            <li><a onClick={logoutUser} className="login">Изход</a></li>
+            <li><NavLink to="/profile" className="login">Профил</NavLink></li>
+            {/* <li><a onClick={logoutUser} className="login">Изход</a></li> */}
         </>
     );
 

@@ -724,7 +724,7 @@ export default function StationMap() {
     }, []);
 
     return (
-        <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+        <div style={{ width: "98vw", height: "100vh", position: "relative" }}>
             {/* Map container */}
             <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />
 

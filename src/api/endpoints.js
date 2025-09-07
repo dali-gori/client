@@ -1,6 +1,4 @@
 // const baseUrl = "https://server-production-32f2.up.railway.app";
-//const baseUrl = "http://localhost:3000";
-// const baseUrl = "https://server-production-32f2.up.railway.app";
 const baseUrl = "http://localhost:3000";
 
 export const endpoints = {
