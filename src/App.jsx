@@ -10,6 +10,7 @@ import TipsPage from './pages/TipsPage.jsx';
 import DonationPage from './pages/DonationPage.jsx';
 import PlansPage from './pages/PlansPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
             <Route path='/donation' element={<DonationPage />} />
             <Route path='/plans' element={<PlansPage />} />
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/profile' element={<ProfilePage />} />
         </Route>
     )
 );
